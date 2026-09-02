@@ -1,0 +1,1785 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Whisper.net</name>
+    </assembly>
+    <members>
+        <member name="T:Whisper.net.BeamSearchSamplingStrategyBuilder">
+            <summary>
+            Builder for <seealso cref="T:Whisper.net.SamplingStrategy.BeamSearchSamplingStrategy"/>
+            </summary>
+        </member>
+        <member name="M:Whisper.net.BeamSearchSamplingStrategyBuilder.WithBeamSize(System.Int32)">
+            <summary>
+            Configures the Beam Search Sampling Strategy with the specified <paramref name="beamSize"/>.
+            </summary>
+            <param name="beamSize">The beam size to be used</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not configured, 5 beam sizes are used.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.BeamSearchSamplingStrategyBuilder.WithPatience(System.Single)">
+            <summary>
+            Configures the Beam Search Sampling Strategy with the specified <paramref name="patience"/>.
+            </summary>
+            <param name="patience">The patience to be used</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not configured, -1.0f patience is used.
+            Note: This is not implmented yet in the native code.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.Ggml.WhisperGgmlDownloader.Default">
+            <summary>
+            The default instance of the downloader, which uses an unauthenticated client with a 1 hour timeout.
+            </summary>
+            <remarks>
+            If running in an environment where the default timeout is not sufficient or
+            multiple requests are being made from the same IP address (e.g. Github Actions with public runners),
+            consider creating a new instance of the downloader with a custom <see cref="T:System.Net.Http.HttpClient"/> instance.
+            The HttpClient should have a longer timeout and, if necessary, an authorization header with a Hugging Face token.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.Ggml.WhisperGgmlDownloader.GetGgmlModelAsync(Whisper.net.Ggml.GgmlType,Whisper.net.Ggml.QuantizationType,System.Threading.CancellationToken)">
+            <summary>
+            Gets the download stream for the model
+            </summary>
+            <param name="type">The type of the model which needs to be downloaded.</param>
+            <param name="quantization">The quantization of the model.</param>
+            <param name="cancellationToken">A cancellation token used to cancell the request to huggingface.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Whisper.net.Ggml.WhisperGgmlDownloader.GetEncoderOpenVinoModelAsync(Whisper.net.Ggml.GgmlType,System.Threading.CancellationToken)">
+            <summary>
+            Gets the download stream for the OpenVino model, which is a zip file.
+            </summary>
+            <param name="type">The type of the model which needs to be downloaded.</param>
+            <param name="cancellationToken">A cancellation token used to stop the request to huggingface.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Whisper.net.Ggml.WhisperGgmlDownloader.GetOpenVinoManifestFileName(Whisper.net.Ggml.GgmlType)">
+            <summary>
+            Gets the manifest file for the OpenVino model.
+            </summary>
+            <param name="type"> The type of the model which needs to be loaded</param>
+            <returns></returns>
+        </member>
+        <member name="M:Whisper.net.Ggml.WhisperGgmlDownloader.GetEncoderCoreMLModelAsync(Whisper.net.Ggml.GgmlType,System.Threading.CancellationToken)">
+            <summary>
+            Gets the download stream for the CoreML model, which is a zip file.
+            </summary>
+            <param name="type">The type of the model which needs to be downloaded.</param>
+            <param name="cancellationToken">A cancellation token used to stop the request to huggingface.</param>
+            <remarks>
+            Needs to be extracted on in the same directory as the ggml model, also ggml model needs to be loaded using file path, not stream.
+            </remarks>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Whisper.net.Ggml.WhisperGgmlDownloader.GetGgmlSileroVadModelAsync(Whisper.net.Ggml.SileroVadType,System.Threading.CancellationToken)">
+            <summary>
+            Gets the download stream for the ggml Silero VAD model.
+            </summary>
+            <param name="type">The type of the Silero VAD model which needs to be downloaded.</param>
+            <param name="cancellationToken">A cancellation token used to stop the request to huggingface.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Whisper.net.Ggml.ZipStreamExtensions.ExtractToPath(System.Threading.Tasks.Task{System.IO.Stream},System.String)">
+            <summary>
+            Extracts the given zip stream to the given path.
+            </summary>
+            <param name="zipStream">The zip stream to be extracted.</param>
+            <param name="path">The path.</param>
+            <remarks>
+            In order to work, you'll need to provide the same path as the ggml model.
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="T:Whisper.net.GreedySamplingStrategyBuilder">
+            <summary>
+            Builder for <seealso cref="T:Whisper.net.GreedySamplingStrategyBuilder"/>
+            </summary>
+        </member>
+        <member name="M:Whisper.net.GreedySamplingStrategyBuilder.WithBestOf(System.Int32)">
+            <summary>
+            Configures the Greedy Sampling Strategy with the specified <paramref name="bestOf"/>.
+            </summary>
+            <param name="bestOf">The best of to be used</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not configured, 1 decoder is used.
+            </remarks>
+        </member>
+        <member name="T:Whisper.net.Internals.Native.Implementations.DllImportsNativeWhisper">
+            <summary>
+            This way of loading INativeWhisper is used on NetFramework + Wasm (as they don't support NativeLibrary)
+            </summary>
+        </member>
+        <member name="T:Whisper.net.Internals.Native.Implementations.LibraryImportInternalWhisper">
+            <summary>
+            This way of loading INativeWhisper is using LibraryImport attribute to load the native library from _Internal
+            </summary>
+        </member>
+        <member name="T:Whisper.net.Internals.Native.Implementations.LibraryImportLibWhisper">
+            <summary>
+            This way of loading INativeWhisper is using the LibraryImport attribute to load the native library.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.Internals.StringPool.GetStringUtf8(System.IntPtr)">
+            <summary>
+            Converts a native UTF8 pointer (null-terminated) into a pooled string.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.Internals.StringPool.ReturnString(System.String)">
+            <summary>
+            Returns a string to the pool for later reuse.
+            All strings created by the pool are re‑pooled for future use.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.Internals.StringPool.TryGetCandidateFromPool(System.Int32,System.Int32@)">
+            <summary>
+            Attempts to locate a candidate string from the pool.
+            Uses binary search on the sorted keys for efficiency.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.Internals.StringPool.UnsafeSetStringLength(System.String,System.Int32)">
+            <summary>
+            Unsafe method to modify the internal length of a string.
+            CAUTION: This violates string immutability.
+            </summary>
+        </member>
+        <member name="T:Whisper.net.Internals.StringPool.ReferenceEqualityComparer`1">
+            <summary>
+            A helper comparer that compares objects by reference.
+            </summary>
+        </member>
+        <member name="T:Whisper.net.IStringPool">
+            <summary>
+            A pool for strings.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.IStringPool.GetStringUtf8(System.IntPtr)">
+            <summary>
+            Converts a native UTF8 pointer (null-terminated) into a pooled string.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.IStringPool.ReturnString(System.String)">
+            <summary>
+            Returns a string to the pool.
+            </summary>
+        </member>
+        <member name="T:Whisper.net.LibraryLoader.RuntimeOptions">
+            <summary>
+            Provides options for configuring the Whisper runtime.
+            </summary>
+            <remarks>
+            Setting values in this class will affect the behavior of the Whisper runtime only if they are done before any <seealso cref="T:Whisper.net.WhisperFactory"/> is created.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.LibraryLoader.RuntimeOptions.LibraryPath">
+            <summary>
+            Gets or sets a custom path to the Whisper native library.
+            </summary>
+        </member>
+        <member name="P:Whisper.net.LibraryLoader.RuntimeOptions.RuntimeLibraryOrder">
+            <summary>
+            Gets or sets the order of the runtime libraries to use for processing.
+            </summary>
+            <remarks>
+            The default order is [RuntimeLibrary.Cuda, RuntimeLibrary.Cuda12, RuntimeLibrary.Vulkan, RuntimeLibrary.CoreML, RuntimeLibrary.OpenVino, RuntimeLibrary.Cpu, RuntimeLibrary.CpuNoAvx].
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.LibraryLoader.RuntimeOptions.LoadedLibrary">
+            <summary>
+            Gets or sets the library that was loaded by the runtime.
+            </summary>
+            <remarks>
+            Setting a custom value will bypass the automatic loading of the Whisper native library.
+            If no custom value is used, the library will be loaded automatically based on the <see cref="P:Whisper.net.LibraryLoader.RuntimeOptions.RuntimeLibraryOrder"/> and the available libraries on the system.
+            Once a library is loaded, it will be used for all subsequent processing.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.Logger.LogProvider.AddConsoleLogging(Whisper.net.Logger.WhisperLogLevel)">
+            <summary>
+            Adds a console logger that logs messages with a severity greater than or equal to the specified level.
+            </summary>
+            <param name="minLevel">The minimum severity level to log.</param>
+            <returns>
+            Returns a disposable object that can be used to remove the logger.
+            </returns>
+        </member>
+        <member name="M:Whisper.net.Logger.LogProvider.AddLogger(System.Action{Whisper.net.Logger.WhisperLogLevel,System.String})">
+            <summary>
+            Adds a logger that logs messages with a custom action.
+            </summary>
+            <param name="logAction">The action to log.</param>
+            <returns>
+            Returns a disposable object that can be used to remove the logger.
+            </returns>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithLanguage(Microsoft.Extensions.AI.SpeechToTextOptions,System.String)">
+            <summary>
+            Configures the processor with the language to be used for detection.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="language">The language (2 letters) to be used.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Default value is "en".
+            Example: "en", "ro"
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithTranslate(Microsoft.Extensions.AI.SpeechToTextOptions)">
+            <summary>
+            Configures the processor to translate the text to English.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, the processor will just transcribe it.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithBeamSearchSamplingStrategy(Microsoft.Extensions.AI.SpeechToTextOptions)">
+            <summary>
+            Configures the processor to use the Beam Search Sampling Strategy.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <returns>The same options instance for chaining.</returns>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithAudioContextSize(Microsoft.Extensions.AI.SpeechToTextOptions,System.Int32)">
+            <summary>
+             [EXPERIMENTAL] Configures the processor to override the audio context size.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="audioContextSize">Audio context size to be overridden</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Quality might be degraded while performance might be improved.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithDuration(Microsoft.Extensions.AI.SpeechToTextOptions,System.TimeSpan)">
+            <summary>
+            Configures the processor with the duration in the audio to which it processes.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="duration">Duration in the audio.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, the processing is happening until the end.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithEncoderBeginHandler(Microsoft.Extensions.AI.SpeechToTextOptions,Whisper.net.OnEncoderBeginEventHandler)">
+            <summary>
+            Adds a <see cref="T:Whisper.net.OnEncoderBeginEventHandler"/> which will be called when the encoder begins processing.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="handler">The event handler to be added.</param>
+            <returns>The same options instance for chaining.</returns>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithEntropyThreshold(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)">
+            <summary>
+            Configures the processor with an entropy threshold for decoder fallback.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="threshold">The entropy threshold.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Default value is 2.4f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithGreedySamplingStrategy(Microsoft.Extensions.AI.SpeechToTextOptions)">
+            <summary>
+            Configures the processor to use the Greedy Sampling strategy.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <returns>The same options instance for chaining.</returns>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithWhisperLanguage(Microsoft.Extensions.AI.SpeechToTextOptions,System.String)">
+            <summary>
+            Configures the processor with the language to be used for detection.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="language">The language (2 letters) to be used.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Default value is "en".
+            Example: "en", "ro"
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithLanguageDetection(Microsoft.Extensions.AI.SpeechToTextOptions,System.Boolean)">
+            <summary>
+            Configures the processor to auto-detect the language based on initial samples.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="enableDetection">Whether to enable language detection.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Note: Processing time will slightly increase.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithLengthPenalty(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)">
+            <summary>
+            Configures the processor with a value indicating the length penalty (alpha).
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="penalty">The length penalty value.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, the processor will use simple length normalization by default.
+            More information about the length penalty can be found here: https://arxiv.org/abs/1609.08144.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithLogProbThreshold(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)">
+            <summary>
+            Configures the processor with a average log probability threshold over sampled tokens.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="threshold">The average log probability threshold.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Default value is -1.0f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithMaxInitialTs(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)">
+            <summary>
+            Configures the processor with a value indicating that the initial timestamp cannot be later than this.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="maxInitialTs">The initial max timestamp.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, default value is: 1f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithMaxSegmentLength(Microsoft.Extensions.AI.SpeechToTextOptions,System.Int32)">
+            <summary>
+            Configures the processor with the maximum segment length in characters.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="maxLength">The maximum segment length in characters.</param>
+            <returns>The same options instance for chaining.</returns>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithMaxLastTextTokens(Microsoft.Extensions.AI.SpeechToTextOptions,System.Int32)">
+            <summary>
+            Configures the processor with the max number of tokens to be used from the previous text as prompt for the decoder.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="maxTokens">The max number of tokens to be used.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, a number of 16384 tokens is used.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithMaxTokensPerSegment(Microsoft.Extensions.AI.SpeechToTextOptions,System.Int32)">
+            <summary>
+            Configures the processor with the maximum number of tokens per segment.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="maxTokens">The maximum number of tokens per segment.</param>
+            <returns>The same options instance for chaining.</returns>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithNoContext(Microsoft.Extensions.AI.SpeechToTextOptions,System.Boolean)">
+            <summary>
+            Configures the processor to not use past transformation (if any) as the initial prompt for a newer processing.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="noContext">Whether to disable context.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, the processor use part transformations as initial prompt for newer processing.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithNoSpeechThreshold(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)">
+            <summary>
+            [EXPERIMENTAL] Configures the processor with a no_speech probability.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="threshold">The no_speech probability</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Default value is 0.6f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithOffset(Microsoft.Extensions.AI.SpeechToTextOptions,System.TimeSpan)">
+            <summary>
+            Configures the processor with the start time in the audio from which it starts the processing.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="offset">Offset in the audio.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, the processing is happening from the beginning.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithOpenVinoEncoder(Microsoft.Extensions.AI.SpeechToTextOptions,System.String,System.String,System.String)">
+            <summary>
+            Configures the processor to use OpenVINO for the encoder part.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="encoderPath">Path to the OpenVINO encoder model.</param>
+            <param name="device">The device to use for OpenVINO.</param>
+            <param name="cachePath">Path to the OpenVINO cache directory.</param>
+            <returns>The same options instance for chaining.</returns>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithoutSuppressBlank(Microsoft.Extensions.AI.SpeechToTextOptions)">
+            <summary>
+            Configures the processor to NOT suppress blank outputs.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, blanks are automatically suppressed.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithoutStringPool(Microsoft.Extensions.AI.SpeechToTextOptions)">
+            <summary>
+            Disables the string pooling.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            This will disable the pooling of strings that are generated (have effect only if <see cref="M:Whisper.net.SpeechToTextOptionsExtensions.WithStringPool(Microsoft.Extensions.AI.SpeechToTextOptions,Whisper.net.IStringPool)"/> was called).
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithPrintProgress(Microsoft.Extensions.AI.SpeechToTextOptions,System.Boolean)">
+            <summary>
+            Configures the processor to print progress information.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="printProgress">Whether to print progress information.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, the processor will not print progress information.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithPrintTimestamps(Microsoft.Extensions.AI.SpeechToTextOptions,System.Boolean)">
+            <summary>
+            Configures the processor to print timestamps for each segment to stdout.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="printTimestamps">Whether to print timestamps.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            This option is available only if <see cref="M:Whisper.net.SpeechToTextOptionsExtensions.WithPrintResults(Microsoft.Extensions.AI.SpeechToTextOptions,System.Boolean)"/> is configured.
+            If not specified, the processor will print also timestamps.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithPrintSpecialTokens(Microsoft.Extensions.AI.SpeechToTextOptions,System.Boolean)">
+            <summary>
+            Configures the processor to print special tokens to stdout.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="printSpecialTokens">Whether to print special tokens.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            This option is available only if <see cref="M:Whisper.net.SpeechToTextOptionsExtensions.WithPrintResults(Microsoft.Extensions.AI.SpeechToTextOptions,System.Boolean)"/> is configured.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithPrintResults(Microsoft.Extensions.AI.SpeechToTextOptions,System.Boolean)">
+            <summary>
+            Configures the processor to print results to stdout.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="printResults">Whether to print results.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, the processor will not print results to stdout.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithProbabilities(Microsoft.Extensions.AI.SpeechToTextOptions,System.Boolean)">
+            <summary>
+            Configures the processor to return probabilities during segment decoding <see cref="P:Whisper.net.SegmentData.MaxProbability"/>, <see cref="P:Whisper.net.SegmentData.MinProbability"/> and <see cref="P:Whisper.net.SegmentData.Probability"/>.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="enableProbabilities">Whether to enable probabilities.</param>
+            <returns>The same options instance for chaining.</returns>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithProgressHandler(Microsoft.Extensions.AI.SpeechToTextOptions,Whisper.net.OnProgressHandler)">
+            <summary>
+            Adds a <see cref="T:Whisper.net.OnProgressHandler"/> which will be called to report progress.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="handler">The event handler to be added.</param>
+            <returns>The same options instance for chaining.</returns>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithSegmentEventHandler(Microsoft.Extensions.AI.SpeechToTextOptions,Whisper.net.OnSegmentEventHandler)">
+            <summary>
+            Adds a <see cref="T:Whisper.net.OnSegmentEventHandler"/> which will be called every time a new segment is detected.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="handler">The event handler to be added.</param>
+            <returns>The same options instance for chaining.</returns>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithStringPool(Microsoft.Extensions.AI.SpeechToTextOptions,Whisper.net.IStringPool)">
+            <summary>
+            Adds the functionality of pooling the strings that are generated reducing the number of allocations.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="stringPool">The string pool to use.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            When using this option designed for high-performance use-cases,
+            ensure that you're returning the <see cref="T:Whisper.net.SegmentData"/> object back to the <see cref="T:Whisper.net.WhisperProcessor"/>
+            using the method <see cref="M:Whisper.net.WhisperProcessor.Return(Whisper.net.SegmentData)"/>.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithTemperature(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)">
+            <summary>
+            Configures the processor with a temperature for sampling.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="temperature">The temperature value.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+            Default value is 0.0f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithTemperatureInc(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)">
+            <summary>
+            Configures the processor with a temperature to increase when falling back.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="temperatureInc">The temperature to increase when falling back.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Falling back can happen when the decoding fails to meet either of the thresholds in: <see cref="M:Whisper.net.SpeechToTextOptionsExtensions.WithEntropyThreshold(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)"/>, <see cref="M:Whisper.net.SpeechToTextOptionsExtensions.WithLogProbThreshold(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)"/> or <see cref="M:Whisper.net.SpeechToTextOptionsExtensions.WithNoSpeechThreshold(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)"/>.
+            Default value is 0.2f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithThreads(Microsoft.Extensions.AI.SpeechToTextOptions,System.Int32)">
+            <summary>
+            Configures the processor to use the specified number of threads.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="threads">The number of threads to be used during encoding and decoding.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, the same number as the hardware threads that the underlying hardware can support concurrently is used.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithTokenTimestamps(Microsoft.Extensions.AI.SpeechToTextOptions)">
+            <summary>
+            [EXPERIMENTAL] Configures the processor to use token-level timestamps.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            If not specified, the processor will not use token timestamps.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithTokenTimestampsSumThreshold(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)">
+            <summary>
+            Configures the processor to use the specified SUM probability threshold for token timestamps.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="threshold">Probability SUM threshold to be used for token-level timestamps.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Default value is 0.01f.
+            This option have effect only together with <see cref="M:Whisper.net.SpeechToTextOptionsExtensions.WithTokenTimestamps(Microsoft.Extensions.AI.SpeechToTextOptions)"/>
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.SpeechToTextOptionsExtensions.WithTokenTimestampsThreshold(Microsoft.Extensions.AI.SpeechToTextOptions,System.Single)">
+            <summary>
+            Configures the processor to use the specified probability threshold for token timestamps.
+            </summary>
+            <param name="options">The options to configure.</param>
+            <param name="threshold">Probability threshold to be used for token-level timestamps.</param>
+            <returns>The same options instance for chaining.</returns>
+            <remarks>
+            Default value is 0.01f.
+            This option have effect only together with <see cref="M:Whisper.net.SpeechToTextOptionsExtensions.WithTokenTimestamps(Microsoft.Extensions.AI.SpeechToTextOptions)"/>
+            </remarks>
+        </member>
+        <member name="T:Whisper.net.WhisperSpeechToTextClient">
+            <summary>
+            Client for speech-to-text operations using Whisper models.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperSpeechToTextClient.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Whisper.net.WhisperSpeechToTextClient"/> class.
+            </summary>
+            <param name="modelFileName">The path to the model file.</param>
+        </member>
+        <member name="M:Whisper.net.WhisperSpeechToTextClient.#ctor(System.Func{Whisper.net.WhisperFactory})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Whisper.net.WhisperSpeechToTextClient"/> class with a factory builder function.
+            </summary>
+            <param name="buildFactoryFunc">A function that creates a WhisperFactory instance.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when the factory builder is null.</exception>
+        </member>
+        <member name="M:Whisper.net.WhisperSpeechToTextClient.GetFactory">
+            <summary>
+            Gets the WhisperFactory instance, creating it if it doesn't exist yet.
+            </summary>
+            <returns>The WhisperFactory instance.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when the factory builder returns null.</exception>
+            <exception cref="T:System.ObjectDisposedException">Thrown when the client has been disposed.</exception>
+        </member>
+        <member name="T:Whisper.net.VadSegmentData">
+            <summary>
+            Represents a speech segment detected by the VAD processor.
+            </summary>
+            <param name="start">The time when speech starts.</param>
+            <param name="end">The time when speech ends.</param>
+        </member>
+        <member name="M:Whisper.net.VadSegmentData.#ctor(System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Represents a speech segment detected by the VAD processor.
+            </summary>
+            <param name="start">The time when speech starts.</param>
+            <param name="end">The time when speech ends.</param>
+        </member>
+        <member name="P:Whisper.net.VadSegmentData.Start">
+            <summary>
+            Gets the time when speech starts.
+            </summary>
+        </member>
+        <member name="P:Whisper.net.VadSegmentData.End">
+            <summary>
+            Gets the time when speech ends.
+            </summary>
+        </member>
+        <member name="T:Whisper.net.Wave.CorruptedWaveException">
+            <summary>
+            Thrown by the <seealso cref="T:Whisper.net.Wave.WaveParser"/> when the wave stream is corrupted and cannot be parsed.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Whisper.net.Wave.CorruptedWaveException.#ctor(System.String)">
+            <summary>
+            Thrown by the <seealso cref="T:Whisper.net.Wave.WaveParser"/> when the wave stream is corrupted and cannot be parsed.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Whisper.net.Wave.NotSupportedWaveException">
+            <summary>
+            Thrown by the <seealso cref="T:Whisper.net.Wave.WaveParser"/> when the wave stream is not currently supported.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Whisper.net.Wave.NotSupportedWaveException.#ctor(System.String)">
+            <summary>
+            Thrown by the <seealso cref="T:Whisper.net.Wave.WaveParser"/> when the wave stream is not currently supported.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Whisper.net.Wave.WaveParser">
+            <summary>
+            Represents a parser for the wave stream, that can read the samples and the metadata from the file.
+            </summary>
+            <remarks>
+            The 
+            </remarks>
+            <param name="waveStream">The wave stream to be processed.</param>
+            <param name="options">Parser options. Optional.</param>
+        </member>
+        <member name="M:Whisper.net.Wave.WaveParser.#ctor(System.IO.Stream,Whisper.net.Wave.WaveParserOptions)">
+            <summary>
+            Represents a parser for the wave stream, that can read the samples and the metadata from the file.
+            </summary>
+            <remarks>
+            The 
+            </remarks>
+            <param name="waveStream">The wave stream to be processed.</param>
+            <param name="options">Parser options. Optional.</param>
+        </member>
+        <member name="P:Whisper.net.Wave.WaveParser.Channels">
+            <summary>
+            Gets the number of channels in the current wave file.
+            </summary>
+            <remarks>
+            It is populated only after the initialization.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.Wave.WaveParser.SampleRate">
+            <summary>
+            Gets the Sample Rate in the current wave file.
+            </summary>
+            <remarks>
+            It is populated only after the initialization.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.Wave.WaveParser.BitsPerSample">
+            <summary>
+            Gets the Bits Per Sample in the current wave file.
+            </summary>
+            <remarks>
+            It is populated only after the initialization.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.Wave.WaveParser.DataChunkSize">
+            <summary>
+            Gets the size of the data chunk in the current wave file.
+            </summary>
+            <remarks>
+            It is populated only after the initialization.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.Wave.WaveParser.DataChunkPosition">
+            <summary>
+            Gets the position of the data chunk in the current wave file.
+            </summary>
+            <remarks>
+            It is populated only after the initialization.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.Wave.WaveParser.IsInitialized">
+            <summary>
+            Gets a value indicating whether the wave parser is initialized.
+            </summary>
+        </member>
+        <member name="P:Whisper.net.Wave.WaveParser.SamplesCount">
+            <summary>
+            Gets the number of samples for each channel in the current wave file.
+            </summary>
+            <remarks>
+            It is populated only after the initialization.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.Wave.WaveParser.FrameSize">
+            <summary>
+            Gets the size of a single frame in the current wave file.
+            </summary>
+            <remarks>
+            It is populated only after the initialization and it is equal to <see cref="P:Whisper.net.Wave.WaveParser.BitsPerSample"/> / 8 * <see cref="P:Whisper.net.Wave.WaveParser.Channels"/>.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.Wave.WaveParser.ValueToDivide">
+            <summary>
+            Gets the value to divide the sample by to get the actual float value.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.Wave.WaveParser.GetAvgSamplesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Returns the average samples from all channels.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.Wave.WaveParser.GetAvgSamples">
+            <summary>
+            Returns the average samples from all channels.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Whisper.net.Wave.WaveParser.GetChannelSamples(System.Int32)">
+            <summary>
+            Returns the number of samples for the given channel.
+            </summary>
+            <param name="channelIndex">The channel index.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Whisper.net.Wave.WaveParser.Initialize">
+            <summary>
+            Initializes the wave parser, by reading the header and the format chunk.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.Wave.WaveParser.InitializeAsync(System.Threading.CancellationToken)">
+            <summary>
+            Initializes the wave parser, by reading the header and the format chunk in an async manner.
+            </summary>
+        </member>
+        <member name="T:Whisper.net.Wave.WaveParserOptions">
+            <summary>
+            Options for configuring the <see cref="T:Whisper.net.Wave.WaveParser"/>.
+            </summary>
+        </member>
+        <member name="P:Whisper.net.Wave.WaveParserOptions.AllowLessSamples">
+            <summary>
+            Allows reading truncated wave files without throwing <see cref="T:Whisper.net.Wave.CorruptedWaveException"/>.
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.None">
+            <summary>
+            No alignment heads.
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.NTopMost">
+            <summary>
+            All heads from the N-top-most text-layers
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.Custom">
+            <summary>
+            Custom alignment heads, provided by <see cref="P:Whisper.net.WhisperFactoryOptions.CustomAlignmentHeads" />
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.TinyEn">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.TinyEn"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.Tiny">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.Tiny"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.BaseEn">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.BaseEn"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.Base">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.Base"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.SmallEn">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.SmallEn"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.Small">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.Small"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.MediumEn">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.Medium"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.Medium">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.MediumEn"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.LargeV1">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.LargeV1"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.LargeV2">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.LargeV2"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.LargeV3">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.LargeV3"/>
+            </summary>
+        </member>
+        <member name="F:Whisper.net.WhisperAlignmentHeadsPreset.LargeV3Turbo">
+            <summary>
+            Alignment heads for the model <see cref="F:Whisper.net.Ggml.GgmlType.LargeV3Turbo"/>
+            </summary>
+        </member>
+        <member name="T:Whisper.net.WhisperFactory">
+            <summary>
+            A factory for creating <seealso cref="T:Whisper.net.WhisperProcessorBuilder"/> used to initialize the process.
+            </summary>
+            <remarks>
+            The factory is loading the model and it is reusing it across all the processors.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperFactory.GetRuntimeInfo">
+            <summary>
+            Returns the information about the loaded native runtime.
+            </summary>
+            <remarks>
+            This information includes support of the features like AVX, AVX2, AVX512, CUDA, etc.
+            </remarks>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Whisper.net.WhisperFactory.GetSupportedLanguages">
+            <summary>
+            Returns an enumerable of the supported languages.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Whisper.net.WhisperFactory.FromPath(System.String)">
+            <summary>
+            Creates a factory that uses the ggml model from a buffer in order to create <seealso cref="T:Whisper.net.WhisperProcessorBuilder"/>.
+            </summary>
+            <param name="path">The path to the model.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If you don't know where to find a ggml model, you can use <seealso cref="T:Whisper.net.Ggml.WhisperGgmlDownloader"/> which is downloading a model from huggingface.co.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperFactory.FromPath(System.String,Whisper.net.WhisperFactoryOptions)">
+            <summary>
+            Creates a factory that uses the ggml model from a path in order to create <seealso cref="T:Whisper.net.WhisperProcessorBuilder"/>.
+            </summary>
+            <param name="path">The path to the model.</param>
+            <param name="options">The options for the factory and the loading of the model.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If you don't know where to find a ggml model, you can use <seealso cref="T:Whisper.net.Ggml.WhisperGgmlDownloader"/> which is downloading a model from huggingface.co.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperFactory.FromBuffer(System.Memory{System.Byte})">
+            <summary>
+            Creates a factory that uses the ggml model from a buffer in memory in order to create <seealso cref="T:Whisper.net.WhisperProcessorBuilder"/>.
+            </summary>
+            <param name="memory">The memory buffer with the model.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If you don't know where to find a ggml model, you can use <seealso cref="T:Whisper.net.Ggml.WhisperGgmlDownloader"/> which is downloading a model from huggingface.co.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperFactory.FromBuffer(System.Memory{System.Byte},Whisper.net.WhisperFactoryOptions)">
+            <summary>
+            Creates a factory that uses the ggml model from a buffer in memory in order to create <seealso cref="T:Whisper.net.WhisperProcessorBuilder"/>.
+            </summary>
+            <param name="memory">The memory buffer with the model.</param>
+            <param name="options">Thhe options for the factory and the loading of the model.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If you don't know where to find a ggml model, you can use <seealso cref="T:Whisper.net.Ggml.WhisperGgmlDownloader"/> which is downloading a model from huggingface.co.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperFactory.CreateBuilder">
+            <summary>
+            Creates a builder that can be used to initialize the whisper processor.
+            </summary>
+            <returns>An instance to a new builder.</returns>
+            <exception cref="T:System.ObjectDisposedException">Throws if the factory was already disposed.</exception>
+            <exception cref="T:Whisper.net.WhisperModelLoadException">Throws if the model couldn't be loaded.</exception>
+        </member>
+        <member name="P:Whisper.net.WhisperFactoryOptions.UseGpu">
+            <summary>
+            Gets or sets a value indicating whether to use GPU for processing.
+            </summary>
+            <remarks>
+            By default, it is true.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.WhisperFactoryOptions.UseFlashAttention">
+            <summary>
+            Gets or sets a value indicating whether to use FlashAttention.
+            </summary>
+            <remarks>
+            By default, it is false.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.WhisperFactoryOptions.UseDtwTimeStamps">
+            <summary>
+            Gets or sets a value indicating whether to use Dynamic Time Warping (DTW) time stamps.
+            </summary>
+            <remarks>
+            By default, it is false.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.WhisperFactoryOptions.HeadsPreset">
+            <summary>
+            Gets or sets the alignment heads preset for DTW.
+            </summary>
+            <remarks>
+            By default, it is <see cref="F:Whisper.net.WhisperAlignmentHeadsPreset.None"/>.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.WhisperFactoryOptions.CustomAlignmentHeads">
+            <summary>
+            Gets or sets the custom alignment heads for DTW.
+            </summary>
+            <remarks>
+            By default, it is null. Required when using DTW with models which don't have a matching <see cref="T:Whisper.net.WhisperAlignmentHeadsPreset"/>.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.WhisperFactoryOptions.GpuDevice">
+            <summary>
+            Gets or sets the GPU device to use for processing.
+            </summary>
+            <remarks>
+            By default, it is 0.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.WhisperFactoryOptions.DtwMemSize">
+            <summary>
+            Gets or sets the size of the DTW memory.
+            </summary>
+            <remarks>
+            By default, it is 128 MB.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.WhisperFactoryOptions.DtwNTop">
+            <summary>
+            Gets or sets the N-top for DTW.
+            </summary>
+            <remarks>
+            By default, it is -1.
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.WhisperFactoryOptions.DelayInitialization">
+            <summary>
+            Gets or sets a value indicating whether to delay initialization of the Whisper context to the first call of <see cref="M:Whisper.net.WhisperFactory.CreateBuilder"/>.
+            </summary>
+            <remarks>
+            By default, it is false and the model is loaded right away.
+            </remarks>
+        </member>
+        <member name="T:Whisper.net.WhisperModelLoadException">
+            <summary>
+            Exception thrown by the <seealso cref="T:Whisper.net.WhisperProcessor"/> if the provided model couldn't be loaded.
+            </summary>
+            <remarks>
+            Check if the path to the model is correct and if the appropiate version of the model is used.
+            </remarks>
+            <param name="message"></param>
+        </member>
+        <member name="M:Whisper.net.WhisperModelLoadException.#ctor(System.String)">
+            <summary>
+            Exception thrown by the <seealso cref="T:Whisper.net.WhisperProcessor"/> if the provided model couldn't be loaded.
+            </summary>
+            <remarks>
+            Check if the path to the model is correct and if the appropiate version of the model is used.
+            </remarks>
+            <param name="message"></param>
+        </member>
+        <member name="T:Whisper.net.WhisperProcessingException">
+            <summary>
+            Exception thrown when the underlying native whisper library fails during processing.
+            </summary>
+        </member>
+        <member name="P:Whisper.net.WhisperProcessingException.ErrorCode">
+            <summary>
+            Gets the native error code returned by whisper.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessingException.#ctor(System.Int32)">
+            <summary>
+            Creates a new instance of <see cref="T:Whisper.net.WhisperProcessingException"/>, using a descriptive message based on the error code.
+            </summary>
+            <param name="errorCode">Native error code returned by whisper.</param>
+        </member>
+        <member name="T:Whisper.net.WhisperProcessor">
+            <summary>
+            Represents a processor that can transcribe or translate audio input.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.ChangeLanguage(System.String)">
+            <summary>
+            Change the language that is used to process the audio input.
+            </summary>
+            <param name="newLanguage"></param>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.DetectLanguage(System.Single[])">
+            <summary>
+            For the given audio input, detects the most probable language.
+            </summary>
+            <param name="samples"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.DetectLanguageWithProbability(System.Single[])">
+            <summary>
+            For the given audio input, detects the most probable language and also returns the probability of this language to be correct.
+            </summary>
+            <param name="samples"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.DetectLanguageWithProbability(System.ReadOnlySpan{System.Single},System.ReadOnlySpan{System.String})">
+            <summary>
+            For the given audio input, detects the most probable language and also returns the probability of this language to be correct.
+            The detection can be restricted to a set of candidate languages.
+            </summary>
+            <param name="samples"></param>
+            <param name="candidateLanguages">If provided, only languages from this list are considered when selecting the result.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.Process(System.IO.Stream)">
+            <summary>
+            Starts the synchronous processing.
+            </summary>
+            <param name="waveStream"></param>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.Process(System.Single[])">
+            <summary>
+            Starts the synchronous processing.
+            </summary>
+            <param name="samples"></param>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.Process(System.ReadOnlySpan{System.Single})">
+            <summary>
+            Starts the synchronous processing.
+            </summary>
+            <param name="samples"></param>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.ProcessAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Starts the asynchronous processing.
+            </summary>
+            <param name="waveStream"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.ProcessAsync(System.ReadOnlyMemory{System.Single},System.Threading.CancellationToken)">
+            <summary>
+            Starts the asynchronous processing.
+            </summary>
+            <param name="samples"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.ProcessAsync(System.Single[],System.Threading.CancellationToken)">
+            <summary>
+            Starts the asynchronous processing.
+            </summary>
+            <param name="samples"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.Return(Whisper.net.SegmentData)">
+            <summary>
+            Returns the strings in the given <paramref name="segmentData"/> to the string pool.
+            </summary>
+            <remarks>
+            This method should be used when <seealso cref="M:Whisper.net.WhisperProcessorBuilder.WithStringPool(Whisper.net.IStringPool)"/> was activated.
+            Once a <paramref name="segmentData"/> is returned, the string values inside it (e.g. <seealso cref="P:Whisper.net.SegmentData.Text"/>) might be changed.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessor.DisposeAsync">
+            <summary>
+            Releases the resources used by this processor.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Whisper.net.WhisperProcessorBuilder">
+            <summary>
+            Builder for <see cref="T:Whisper.net.WhisperProcessor"/>.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithThreads(System.Int32)">
+            <summary>
+            Configures the processor to use the specified number of threads.
+            </summary>
+            <param name="threads">The number of threads to be used during encoding and decoding.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the same number as the hardware threads that the underlying hardware can support concurrently is used.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithMaxLastTextTokens(System.Int32)">
+            <summary>
+            Configures the processor with the max number of tokens to be used from the previous text as prompt for the decoder.
+            </summary>
+            <param name="maxLastTextTokens">The max number of tokens to be used.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, a number of 16384 tokens is used.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithOffset(System.TimeSpan)">
+            <summary>
+            Configures the processor with the start time in the audio from which it starts the processing.
+            </summary>
+            <param name="offset">Offset in the audio.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the processing is happening from the beginning.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithDuration(System.TimeSpan)">
+            <summary>
+            Configures the processor with the duration of the audio to be processed.
+            </summary>
+            <param name="duration">Duration to be processed</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the processing is happening for the entire input.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithTranslate">
+            <summary>
+            Configures the processor to translate the text to English.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the processor will just transcribe it.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithNoContext">
+            <summary>
+            Configures the processor to not use past transformation (if any) as the initial prompt for a newer processing.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the processor use part transformations as initial prompt for newer processing.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithSingleSegment">
+            <summary>
+            Configures the processor to force a single segment as output instead of multiple.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the processor will return multiple segments (if they are recognized).
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithPrintSpecialTokens">
+            <summary>
+            Configures the processor to print special tokens (e.g. &lt;SOT&gt;, &lt;EOT&gt;, &lt;BEG&gt;, etc.)
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the processor will not print special tokens.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithPrintProgress">
+            <summary>
+            Configures the processor to print progress information.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the processor will not print progress information.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithPrintResults">
+            <summary>
+            Configures the processor to print results to stdout.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the processor will not print results to stdout.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithPrintTimestamps(System.Boolean)">
+            <summary>
+            Configures the processor to print timestamps for each segment to stdout.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            This option is available only if <seealso cref="M:Whisper.net.WhisperProcessorBuilder.WithPrintResults"/> is configured.
+            If not specified, the processor will print also timestamps.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithTokenTimestamps">
+            <summary>
+            [EXPERIMENTAL] Configures the processor to use token-level timestamps.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the processor will not use token timestamps.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithTokenTimestampsThreshold(System.Single)">
+            <summary>
+            Configures the processor to use the specified probability threshold for token timestamps.
+            </summary>
+            <param name="tokenTimestampsThreshold">Probability threshold to be used for token-level timestamps.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            Default value is 0.01f.
+            This option have effect only together with <seealso cref="M:Whisper.net.WhisperProcessorBuilder.WithTokenTimestamps"/>
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithTokenTimestampsSumThreshold(System.Single)">
+            <summary>
+            Configures the processor to use the specified SUM probability threshold for token timestamps.
+            </summary>
+            <param name="tokenTimestampsSumThreshold">Probability SUM threshold to be used for token-level timestamps.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            Default value is 0.01f.
+            This option have effect only together with <seealso cref="M:Whisper.net.WhisperProcessorBuilder.WithTokenTimestamps"/>
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithMaxSegmentLength(System.Int32)">
+            <summary>
+            Configures the processor to use a maximum segment length.
+            </summary>
+            <param name="maxSegmentLength">The maximum segment length to be used</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified no max segment length will be applied.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.SplitOnWord">
+            <summary>
+            Configures the processor to split on each word.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified split will be done based on the model configuration.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithMaxTokensPerSegment(System.Int32)">
+            <summary>
+            Configures the processor to use a maximum tokens per segment.
+            </summary>
+            <param name="maxTokensPerSegment">The maximum number of tokens to be used</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified no max number of tokens will be applied.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithAudioContextSize(System.Int32)">
+            <summary>
+             [EXPERIMENTAL] Configures the processor to override the audio context size.
+            </summary>
+            <param name="audioContextSize">Audio context size to be overridden</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            Quality might be degraded while performance might be improved.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithSuppressRegex(System.String)">
+            <summary>
+            [EXPERIMENTAL] Configures the processor to suppress specific tokens that are matched by the regex.
+            </summary>
+            <param name="regex">The regex that should be used for filtering.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            See https://github.com/openai/whisper/discussions/1041 for more details.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithPrompt(System.String)">
+            <summary>
+            [EXPERIMENTAL] Configures the processor to use an initial prompt, which will be prepended to any existing text context.
+            </summary>
+            <param name="prompt">The prompt to be used.</param>
+            <returns>An instance to the same builder.</returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithCarryInitialPrompt(System.Boolean)">
+            <summary>
+            [EXPERIMENTAL] Configures the processor to always prepend InitialPrompt to every decode window (may reduce conditioning on previous text)
+            </summary>
+            <remarks>
+            By default, it is false.
+            </remarks>
+            <param name="carryInitialPrompt">A value indicating how to configure this value.</param>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithLanguage(System.String)">
+            <summary>
+            Configures the processor with the language to be used for detection.
+            </summary>
+            <param name="language">The language (2 letters) to be used.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            Default value is "en".
+            Example: "en", "ro"
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithLanguageDetection">
+            <summary>
+            Configures the processor to auto-detect the language based on initial samples.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            Note: Processing time will slightly increase.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithoutSuppressBlank">
+            <summary>
+            Configures the processor to NOT suppress blank outputs.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, blanks are automatically suppressed.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithTemperature(System.Single)">
+            <summary>
+            Configures the temperature for the processor.
+            </summary>
+            <param name="temperature">The temperature value to be used</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, default value is: 0.2f.
+            More details: https://ai.stackexchange.com/questions/32477/what-is-the-temperature-in-the-gpt-models/32478#32478
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithMaxInitialTs(System.Single)">
+            <summary>
+            Configures the processor with a value indicating that the initial timestamp cannot be later than this.
+            </summary>
+            <param name="maxInitialTs">The initial max timestamp.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, default value is: 1f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithLengthPenalty(System.Single)">
+            <summary>
+            Configures the processor with a value indicating the length penalty (alpha).
+            </summary>
+            <param name="lengthPenalty">The initial max timestamp.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            If not specified, the processor will use simple length normalization by default.
+            More information about the length penalty can be found here: https://arxiv.org/abs/1609.08144.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithTemperatureInc(System.Single)">
+            <summary>
+            Configures the processor with a temperature to increase when falling back.
+            </summary>
+            <param name="temperature">The temperature to increase when falling back.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            Falling back can happen when the decoding fails to meet either of the thresholds in: <seealso cref="M:Whisper.net.WhisperProcessorBuilder.WithEntropyThreshold(System.Single)"/>, <seealso cref="M:Whisper.net.WhisperProcessorBuilder.WithLogProbThreshold(System.Single)"/> or <seealso cref="M:Whisper.net.WhisperProcessorBuilder.WithNoSpeechThreshold(System.Single)"/>.
+            Default value is 0.2f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithEntropyThreshold(System.Single)">
+            <summary>
+            Configures the processor with the entropy threshold for falling back.
+            </summary>
+            <param name="entropyThreshold">The entropy threshold</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            Default value is 2.4f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithLogProbThreshold(System.Single)">
+            <summary>
+            Configures the processor with a average log probability threshold over sampled tokens.
+            </summary>
+            <param name="logProbThreshold">The average log probability threshold.</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            Default value is -1.0f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithNoSpeechThreshold(System.Single)">
+            <summary>
+            [EXPERIMENTAL] Configures the processor with a no_speech probability.
+            </summary>
+            <param name="noSpeechThreshold">The no_speech probability</param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            Default value is 0.6f.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithSegmentEventHandler(Whisper.net.OnSegmentEventHandler)">
+            <summary>
+            Adds a <seealso cref="T:Whisper.net.OnSegmentEventHandler"/> which will be called every time a new segment is detected.
+            </summary>
+            <param name="segmentEventHandler">The event handler to be added.</param>
+            <returns>An instance to the same builder.</returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithProgressHandler(Whisper.net.OnProgressHandler)">
+            <summary>
+            Adds a <seealso cref="T:Whisper.net.OnProgressHandler"/> which will report the progress in percentage.
+            </summary>
+            <param name="progressHandler">The event handler to be added.</param>
+            <returns>An instance to the same builder.</returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithEncoderBeginHandler(Whisper.net.OnEncoderBeginEventHandler)">
+            <summary>
+            Adds a <seealso cref="T:Whisper.net.OnEncoderBeginEventHandler"/> which will be called when encoder will begin.
+            </summary>
+            <param name="encoderBeginEventHandler">The event handler to be added.</param>
+            <returns>An instance to the same builder.</returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithStringPool(Whisper.net.IStringPool)">
+             <summary>
+             Adds the functionlity of pooling the strings that are generated reducing the number of allocations.
+             </summary>
+             <remarks>
+             When using this option designed for high-performance use-cases,
+             ensure that you're returning the <seealso cref="T:Whisper.net.SegmentData"/> object back to the <seealso cref="T:Whisper.net.WhisperProcessor"/>
+             using the method <see cref="M:Whisper.net.WhisperProcessor.Return(Whisper.net.SegmentData)"/>.
+            
+             By default, this option is disabled.
+             When calling this method with null, a default implementation of <seealso cref="T:Whisper.net.IStringPool"/> will be used (reshared between all processors created for the <seealso cref="T:Whisper.net.WhisperFactory"/>.
+             </remarks>
+             <returns>An instance to the same builder.</returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithoutStringPool">
+            <summary>
+            Disables the string pooling.
+            </summary>
+            <remarks>
+            This will disable the pooling of strings that are generated (have effect only if <seealso cref="M:Whisper.net.WhisperProcessorBuilder.WithStringPool(Whisper.net.IStringPool)"/> was called).
+            </remarks>
+            <returns>An instance to the same builder.</returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithGreedySamplingStrategy(System.Action{Whisper.net.GreedySamplingStrategyBuilder})">
+            <summary>
+            Configures the processor to use the Greedy Sampling strategy.
+            </summary>
+            <param name="configure">An optional action to configure the <seealso cref="T:Whisper.net.SamplingStrategy.GreedySamplingStrategy"/> that will be used.</param>
+            <returns>A new <seealso cref="T:Whisper.net.GreedySamplingStrategyBuilder"/> for configuring the <seealso cref="T:Whisper.net.SamplingStrategy.GreedySamplingStrategy"/></returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithBeamSearchSamplingStrategy(System.Action{Whisper.net.BeamSearchSamplingStrategyBuilder})">
+            <summary>
+            Configures the processor to use the Beam Search Sampling Strategy.
+            </summary>
+            <param name="configure">An optional action to configure the <seealso cref="T:Whisper.net.SamplingStrategy.BeamSearchSamplingStrategy"/> that will be used.</param>
+            <returns>A new <seealso cref="T:Whisper.net.BeamSearchSamplingStrategyBuilder"/> for configuring the <seealso cref="T:Whisper.net.SamplingStrategy.BeamSearchSamplingStrategy"/></returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithProbabilities">
+            <summary>
+            Confiugres the processor to return probabilities during segment decoding <seealso cref="P:Whisper.net.SegmentData.MaxProbability"/>, <seealso cref="P:Whisper.net.SegmentData.MinProbability"/> and <seealso cref="P:Whisper.net.SegmentData.Probability"/>.
+            </summary>
+            <returns>An instance to the same builder.</returns>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.WithOpenVinoEncoder(System.String,System.String,System.String)">
+            <summary>
+            Configures the options for OpenVino encoder.
+            </summary>
+            <param name="openVinoEncoderPath">
+            Optional path to OpenVINO encoder IR model. If set to null, the path will be generated from the ggml model path that was passed if loaded from a file.
+            </param>
+            <param name="openVinoDevice">
+            OpenVINO device to run inference on ("CPU", "GPU", etc.)
+            </param>
+            <param name="openVinoCachePath">
+            Optional cache directory that can speed up init time, especially for  GPU, by caching compiled 'blobs' there. Null if not used.
+            </param>
+            <returns>An instance to the same builder.</returns>
+            <remarks>
+            These options will be applied only if using OpenVino runtime.
+            </remarks>
+        </member>
+        <member name="M:Whisper.net.WhisperProcessorBuilder.Build">
+            <summary>
+            Builds the processor.
+            </summary>
+            <returns>The <seealso cref="T:Whisper.net.WhisperProcessor"/> build with these configs.</returns>
+        </member>
+        <member name="T:Whisper.net.WhisperToken">
+            <summary>
+            Represents data about a recognized token.
+            </summary>
+        </member>
+        <member name="T:Whisper.net.SegmentData">
+            <summary>
+            Represents data about a recognized segment.
+            </summary>
+            <param name="text"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+            <param name="minProbability"></param>
+            <param name="maxProbability"></param>
+            <param name="probability"></param>
+            <param name="noSpeechProbability"></param>
+            <param name="language"></param>
+            <param name="tokens"></param>
+        </member>
+        <member name="M:Whisper.net.SegmentData.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Single,System.Single,System.Single,System.Single,System.String,Whisper.net.WhisperToken[])">
+            <summary>
+            Represents data about a recognized segment.
+            </summary>
+            <param name="text"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+            <param name="minProbability"></param>
+            <param name="maxProbability"></param>
+            <param name="probability"></param>
+            <param name="noSpeechProbability"></param>
+            <param name="language"></param>
+            <param name="tokens"></param>
+        </member>
+        <member name="P:Whisper.net.SegmentData.Text">
+            <summary>
+            Gets the text of the segment.
+            </summary>
+        </member>
+        <member name="P:Whisper.net.SegmentData.Start">
+            <summary>
+            Gets the time when the segment started.
+            </summary>
+        </member>
+        <member name="P:Whisper.net.SegmentData.End">
+            <summary>
+            Gets the time when the segment ended.
+            </summary>
+        </member>
+        <member name="P:Whisper.net.SegmentData.MinProbability">
+            <summary>
+            Gets the minimum probability found in any of the tokens.
+            </summary>
+            <remarks>
+            The possible values are from 0 to 1
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.SegmentData.MaxProbability">
+            <summary>
+            Gets the maximum probability found in any of the tokens.
+            </summary>
+            <remarks>
+            The possible values are from 0 to 1
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.SegmentData.Probability">
+            <summary>
+            Gets the average probability of the segment.
+            </summary>
+            <remarks>
+            The possible values are from 0 to 1
+            </remarks>
+        </member>
+        <member name="P:Whisper.net.SegmentData.Language">
+            <summary>
+            Gets the language of the current segment.
+            </summary>
+        </member>
+        <member name="P:Whisper.net.SegmentData.Tokens">
+            <summary>
+            The tokens of the current segment.
+            </summary>
+        </member>
+        <member name="T:Whisper.net.WhisperVadFactory">
+            <summary>
+            A factory for creating <seealso cref="T:Whisper.net.WhisperVadProcessorBuilder"/> used to initialize VAD processing.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadFactory.FromPath(System.String)">
+            <summary>
+            Creates a factory that uses the ggml VAD model from a path in order to create <seealso cref="T:Whisper.net.WhisperVadProcessorBuilder"/>.
+            </summary>
+            <param name="path">The path to the VAD model.</param>
+            <returns>An instance to the same builder.</returns>
+        </member>
+        <member name="M:Whisper.net.WhisperVadFactory.FromPath(System.String,Whisper.net.WhisperFactoryOptions)">
+            <summary>
+            Creates a factory that uses the ggml VAD model from a path in order to create <seealso cref="T:Whisper.net.WhisperVadProcessorBuilder"/>.
+            </summary>
+            <param name="path">The path to the VAD model.</param>
+            <param name="options">The options for the factory and the loading of the model.</param>
+            <returns>An instance to the same builder.</returns>
+        </member>
+        <member name="M:Whisper.net.WhisperVadFactory.CreateBuilder">
+            <summary>
+            Creates a builder that can be used to initialize the whisper VAD processor.
+            </summary>
+            <returns>An instance to a new builder.</returns>
+            <exception cref="T:System.ObjectDisposedException">Throws if the factory was already disposed.</exception>
+        </member>
+        <member name="M:Whisper.net.WhisperVadFactory.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:Whisper.net.WhisperVadProcessor">
+            <summary>
+            Represents a processor that can detect speech segments in audio input.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeech(System.IO.Stream)">
+            <summary>
+            Detects speech segments in a wave stream.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeechNoReset(System.IO.Stream)">
+            <summary>
+            Detects speech segments in a wave stream without resetting the VAD state.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeech(System.Single[])">
+            <summary>
+            Detects speech segments in audio samples.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeechNoReset(System.Single[])">
+            <summary>
+            Detects speech segments in audio samples without resetting the VAD state.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeech(System.ReadOnlySpan{System.Single})">
+            <summary>
+            Detects speech segments in audio samples.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeechNoReset(System.ReadOnlySpan{System.Single})">
+            <summary>
+            Detects speech segments in audio samples without resetting the VAD state.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeechAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Detects speech segments in a wave stream.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeechNoResetAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Detects speech segments in a wave stream without resetting the VAD state.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeechAsync(System.Single[],System.Threading.CancellationToken)">
+            <summary>
+            Detects speech segments in audio samples.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeechNoResetAsync(System.Single[],System.Threading.CancellationToken)">
+            <summary>
+            Detects speech segments in audio samples without resetting the VAD state.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeechAsync(System.ReadOnlyMemory{System.Single},System.Threading.CancellationToken)">
+            <summary>
+            Detects speech segments in audio samples.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DetectSpeechNoResetAsync(System.ReadOnlyMemory{System.Single},System.Threading.CancellationToken)">
+            <summary>
+            Detects speech segments in audio samples without resetting the VAD state.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.ResetState">
+            <summary>
+            Resets the VAD state.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessor.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:Whisper.net.WhisperVadProcessorBuilder">
+            <summary>
+            A builder for creating a <see cref="T:Whisper.net.WhisperVadProcessor"/>.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessorBuilder.WithThreads(System.Int32)">
+            <summary>
+            Sets the number of threads used by the VAD processor.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessorBuilder.WithUseGpu(System.Boolean)">
+            <summary>
+            Sets whether GPU should be used by the VAD processor.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessorBuilder.WithGpuDevice(System.Int32)">
+            <summary>
+            Sets the GPU device used by the VAD processor.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessorBuilder.WithThreshold(System.Single)">
+            <summary>
+            Sets the probability threshold to consider audio as speech.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessorBuilder.WithMinSpeechDuration(System.TimeSpan)">
+            <summary>
+            Sets the minimum duration for a valid speech segment.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessorBuilder.WithMinSilenceDuration(System.TimeSpan)">
+            <summary>
+            Sets the minimum silence duration needed to consider speech as ended.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessorBuilder.WithMaxSpeechDuration(System.TimeSpan)">
+            <summary>
+            Sets the maximum duration of a speech segment before forcing a new segment.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessorBuilder.WithSpeechPadding(System.TimeSpan)">
+            <summary>
+            Sets the padding added before and after speech segments.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessorBuilder.WithSamplesOverlap(System.TimeSpan)">
+            <summary>
+            Sets the overlap used when copying audio samples from speech segments.
+            </summary>
+        </member>
+        <member name="M:Whisper.net.WhisperVadProcessorBuilder.Build">
+            <summary>
+            Builds a processor used to run voice activity detection.
+            </summary>
+        </member>
+        <member name="T:Whisper.net.Resource">
+            <summary>
+            Android Resource Designer class.
+            Exposes the Android Resource designer assembly into the project Namespace.
+            </summary>
+        </member>
+    </members>
+</doc>
